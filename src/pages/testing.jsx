@@ -6,13 +6,13 @@ const [status, setStatus] = useState("Pending")
 
 
 function increment() {
- let newValue = number + 1;
- setNumber(newValue);
+
+ setNumber(number +1);
 }
 
 function decrement() {
-  let newValue = number - 1;
-  setNumber(newValue);
+  
+  setNumber(number -1);
 }
 
 return(
