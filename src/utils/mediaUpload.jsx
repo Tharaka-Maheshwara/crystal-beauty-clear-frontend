@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   "https://jtcdxbolazgubpgrxndm.supabase.co",
-  "sb_publishable_BCOBHPllsxS07rJVUtTLiw_KkrUmeVE"
+  "sb_publishable_BCOBHPllsxS07rJVUtTLiw_KkrUmeVE",
 );
 
 export default function mediaUpload(file) {
@@ -22,9 +22,8 @@ export default function mediaUpload(file) {
         upsert: false,
       })
       .then(() => {
-        const url = supabase.storage
-          .from("images")
-          .getPublicUrl(newFileName).data.publicUrl;
+        const url = supabase.storage.from("images").getPublicUrl(newFileName)
+          .data.publicUrl;
         resolve(url);
       })
       .catch((error) => {
