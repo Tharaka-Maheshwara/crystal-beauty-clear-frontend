@@ -1,40 +1,34 @@
 import { useState } from "react";
 
+import toast from "react-hot-toast";
+import mediaUpload from "../utils/mediaUpload";
+
 export default function Testing() {
-const [number , setNumber] =   useState(0)   
-const [status, setStatus] = useState("Pending")
+const [file, setFile] = useState(null)
 
 
-function increment() {
+function handleUpload(){
+mediaUpload(file).then((url)=>{
+    console.log(url);
+    toast.success("File uploaded successfully")
+}).catch((error)=>{
+    console.log(error)
+    toast.error("Failed to upload file") 
+})
 
- setNumber(number +1);
 }
-
-function decrement() {
-  
-  setNumber(number -1);
-}
-
 return(
     <div className="w-full h-screen flex flex-col justify-center items-center ">
-        <span className="text-3xl font-bold">{number}</span>
-        <div className="w-full flex justify-center">
-            <button onClick={increment} className="bg-blue-500 text-white p-2 rounded-lg w-[60px] cursor-pointer ">+</button>
-            <button onClick={decrement} className="bg-blue-500 text-white p-2 rounded-lg w-[60px] cursor-pointer">-</button>
-        </div>
+       
+<input type="file" onChange={
+(e)=>{
+    setFile(e.target.files[0])
+}
 
+} /> 
+<button onClick={handleUpload} className="bg-gray-700 text-white p-2 rounded-lg">Upload</button>
 
-<span className="text-3xl font-bold">{status}</span>
-        <div className="w-full flex justify-center">
-            <button onClick={()=>{
-                setStatus("Passed")
-            }} className="bg-blue-500 text-white p-2 rounded-lg w-[60px] cursor-pointer ">Pass</button>
-            <button onClick={()=>{
-                setStatus("Failed")
-            }} className="bg-blue-500 text-white p-2 rounded-lg w-[60px] cursor-pointer">Fail</button>
-        </div>
-
-    </div>
+</div>
 )
 
 }
