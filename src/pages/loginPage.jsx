@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,Link} from "react-router-dom";
 
 
 export default function LoginPage() {
@@ -9,19 +9,18 @@ export default function LoginPage() {
 
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
+const [loading , setLoading] = useState(false); 
 const navigate =  useNavigate();
 
 function handleLogin() {
-   // console.log("Email :", email);
-    //console.log("Password :",password);
-    //console.log("Login clicked");
+   setLoading(true);
 
 axios.post(import.meta.env.VITE_BACKEND_URL+"/api/user/login", {
     email: email,
     password: password  
 
 }).then((response)=>{
-    console.log("Login successful", response.data);
+
    toast.success("Login successful");
    localStorage.setItem("token", response.data.token);
 
@@ -31,11 +30,12 @@ if(user.role === "admin") {
 }else{
  navigate("/");
 }
-
+setLoading(false);
 
 }).catch((error)=>{
-    console.log("Login failed", error);
+    
     toast.error(error.response.data.message||"Login failed");
+    setLoading(false);
 });
 }
     return(
@@ -55,8 +55,19 @@ if(user.role === "admin") {
     (e)=>{
     setPassword(e.target.value);
 }} className="w-[400px] h-[50px] border border-white rounded-xl text-center m-[5px]"  type="password" placeholder="password"/>
-<button onClick={handleLogin}  className="w-[400px] h-[50px] bg-green-400 text-white  rounded-xl cursor-pointer">Login</button>
+<button onClick={handleLogin}  className="w-[400px] h-[50px] bg-green-400 text-white  rounded-xl cursor-pointer">
 
+    {
+        loading?"Loading" : "Login"
+    }
+</button>
+  <p className="text-gray-600 text-center m-[10px]">
+    Don't have an account? 
+    &nbsp;
+    <span className="text-green-500 cursor-pointer">
+       <Link to={"/register"}>Register Now</Link> 
+    </span>
+  </p>
         </div>
            </div>
         </div>
