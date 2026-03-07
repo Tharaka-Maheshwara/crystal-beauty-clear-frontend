@@ -4,21 +4,25 @@ import { useState } from "react";
 import axios from "axios";
 import mediaUpload from "../../utils/mediaUpload";
 
-
-
 export default function EditProductForm() {
-const locationDate = useLocation();
-if(locationDate.state == null){
-   toast.error("Please select a product to edit")
-   window.location.href = "/admin/products"
-}
+  const locationDate = useLocation();
+  if (locationDate.state == null) {
+    toast.error("Please select a product to edit");
+    window.location.href = "/admin/products";
+  }
 
   const [productId, setProductId] = useState(locationDate.state.productId);
   const [name, setName] = useState(locationDate.state.name);
-  const [altNames, setAltNames] = useState(locationDate.state.altName.join(",") );
+  const [altNames, setAltNames] = useState(
+    locationDate.state.altName.join(","),
+  );
   const [price, setPrice] = useState(locationDate.state.price);
-  const [labledPrice, setLabledPrice] = useState(locationDate.state.labeledPrice);
-  const [description, setDescription] = useState(locationDate.state.description);
+  const [labledPrice, setLabledPrice] = useState(
+    locationDate.state.labeledPrice,
+  );
+  const [description, setDescription] = useState(
+    locationDate.state.description,
+  );
   const [stock, setStock] = useState(locationDate.state.stock);
   const [images, setImages] = useState([]);
   const navigate = useNavigate();
@@ -33,13 +37,12 @@ if(locationDate.state == null){
     try {
       let result = await Promise.all(promisesArray);
 
-     if(images.length == 0){
-        result = locationDate.state.images
-     }
+      if (images.length == 0) {
+        result = locationDate.state.images;
+      }
 
       const altNamesInArray = altNames.split(",");
       const product = {
-       
         name: name,
         altName: altNamesInArray,
         price: price,
@@ -53,7 +56,7 @@ if(locationDate.state == null){
       console.log(token);
 
       await axios.put(
-        import.meta.env.VITE_BACKEND_URL + "/api/product/"+productId,
+        import.meta.env.VITE_BACKEND_URL + "/api/product/" + productId,
         product,
         {
           headers: {
@@ -76,7 +79,7 @@ if(locationDate.state == null){
         </h1>
 
         <input
-        disabled
+          disabled
           value={productId}
           onChange={(e) => {
             setProductId(e.target.value);
